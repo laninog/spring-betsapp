@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+<meta charset="UTF-8">
+<title>BetsApp</title>
+<style type="text/css">
+table, th, td {
+	border: 1px solid black;
+}
+
+.highl:hover {
+	background-color: lightgreen;
+}
+</style>
+</head>
+<body>
+
+	<h1>BetsApp</h1>
+
+	<div th:if="${matches.isEmpty()}">
+		No results <a href="/form">Add</a>
+	</div>
+	
+	<div th:if="${success != null}" th:text="${success}"></div>
+
+	<div th:if="${!matches.isEmpty()}">
+
+		<div>
+			<a href="/form">Add</a>
+		</div>
+
+		<br>
+
+		<table>
+			<thead>
+				<tr>
+					<td>Id</td>
+					<td>Local</td>
+					<td>Relation</td>
+					<td>Visitor</td>
+					<td>Relation</td>
+					<td>Draw</td>
+					<td>Open</td>
+					<td>Close</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="b: ${matches}">
+					<td th:text="${b.id}"></td>
+					<td th:text="${b.local}"></td>
+					<td class="highl"><a th:href="@{/local/} + ${b.id}"
+						th:text="'1/' + ${b.relLocal}"></a></td>
+					<td th:text="${b.visitor}"></td>
+					<td><a th:href="@{/visitor/} + ${b.id}"
+						th:text="'1/' + ${b.relVisitor}"></a></td>
+					<td><a th:href="@{/draw/} + ${b.id}"
+						th:text="'1/' + ${b.relDraw}"></a></td>
+					<td th:text="${#temporals.format(b.open,'dd/MM HH:mm')}"></td>
+					<td th:text="${#temporals.format(b.close,'dd/MM HH:mm')}"></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<br>
+
+	<div>
+		<form th:action="@{/logout}" method="post">
+			<button class="dropdown-item" type="submit">Logout</button>
+		</form>
+	</div>
+	
+	<p sec:authorize="isAuthenticated()">
+		User: <span sec:authentication="name"></span> | Roles: <span sec:authentication="principal.authorities"></span>
+	</p>
+
+</body>
+</html>
