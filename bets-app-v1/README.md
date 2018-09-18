@@ -9,7 +9,7 @@
 - JPA
 - H2
 - DevTools
-- 
+
 ## Requirements
 
 - [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
@@ -20,7 +20,8 @@
 
 Clone repository
 ``` bash
-git clone http://
+git clone https://github.com/laninog/spring-betsapp.git
+cd spring-betsapp
 ```
 
 ## Build & Test
