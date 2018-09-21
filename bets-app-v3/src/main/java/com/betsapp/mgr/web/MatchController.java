@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,37 +28,43 @@ public class MatchController {
 	
 	@Autowired
 	private MatchRepository repository;
-	
+
+	@Secured({"ROLE_USER"})
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String findAll(Model model) {
 		model.addAttribute("matches", repository.findAll());
 		return "index";
 	}
-	
+
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/form")
 	public String add(Model model) {
 		model.addAttribute("match", new Match());
 		return "form";
 	}
 
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/local/{id}")
 	public String local(@PathVariable("id") Long id) {
 		setWinner(id, MatchResult.LOCAL);
 		return "redirect:/";
 	}
-	
+
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/visitor/{id}")
 	public String visitor(@PathVariable("id") Long id) {
 		setWinner(id, MatchResult.VISITOR);
 		return "redirect:/";
 	}
-	
+
+	@Secured({"ROLE_ADMIN"})
 	@RequestMapping(value = "/draw/{id}")
 	public String draw(@PathVariable("id") Long id) {
 		setWinner(id, MatchResult.DRAW);
 		return "redirect:/";
 	}
-	
+
+	@Secured({"ROLE_ADMIN", "ROLE_USER"})
 	@RequestMapping(value = "/matches", method = RequestMethod.POST)
 	public String save(@Valid Match match, BindingResult result, RedirectAttributes flash) {
 		
