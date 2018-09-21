@@ -45,7 +45,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.and()
 				.logout().permitAll()
 			.and()
-				.exceptionHandling();
+				.exceptionHandling()
+			.accessDeniedPage("/error403");
 
 	}
 
