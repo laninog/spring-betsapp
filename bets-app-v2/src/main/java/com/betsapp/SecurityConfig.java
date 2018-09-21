@@ -1,5 +1,7 @@
 package com.betsapp;
 
+import javax.sql.DataSource;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -21,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
+	private DataSource dataSource;
+	
+	@Autowired
 	public void configurer(AuthenticationManagerBuilder auth) throws Exception {
 		
 		@SuppressWarnings("deprecation") // Test only
@@ -29,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 			.withUser(users.username("admin").password("admin").roles("USER", "ADMIN"))
 			.withUser(users.username("user").password("user").roles("USER"));
-
+		
 	}
 
 	@Override
