@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.betsapp.usr.handlers.LoginSuccessHandler;
+import com.betsapp.usr.services.UserService;
 
 @EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -22,6 +23,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	private DataSource dataSource;
+	
+	@Autowired
+	private UserService userService;
 	
 	@Autowired
 	public void configurer(AuthenticationManagerBuilder auth) throws Exception {
