@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.betsapp.usr.handlers.LoginSuccessHandler;
 
@@ -17,6 +18,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private LoginSuccessHandler successHandler;
 
 	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
 	public void configurer(AuthenticationManagerBuilder auth) throws Exception {
 		
 		@SuppressWarnings("deprecation") // Test only
@@ -25,6 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.inMemoryAuthentication()
 			.withUser(users.username("admin").password("admin").roles("USER", "ADMIN"))
 			.withUser(users.username("user").password("user").roles("USER"));
+
 	}
 
 	@Override
