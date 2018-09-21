@@ -1,7 +1,5 @@
 package com.betsapp;
 
-import javax.sql.DataSource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -39,10 +37,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 			.antMatchers("/static/**")
 				.permitAll()
-			.antMatchers("/form/**")
-				.hasAnyRole("ADMIN").anyRequest().authenticated()
-			.antMatchers("/matches/**")
-				.hasAnyRole("ADMIN", "USER").anyRequest().authenticated()
 			.and()
 				.formLogin()
 				.successHandler(successHandler)
