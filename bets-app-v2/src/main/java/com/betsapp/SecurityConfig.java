@@ -20,24 +20,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
-	
-	@Autowired
-	private DataSource dataSource;
-	
+		
 	@Autowired
 	private UserService userService;
 	
 	@Autowired
 	public void configurer(AuthenticationManagerBuilder auth) throws Exception {
 		
-		auth.jdbcAuthentication()
-		.dataSource(dataSource)
-		.passwordEncoder(passwordEncoder)
-		.usersByUsernameQuery("select username,password,enabled from usr_users "
-				+ "where username=?")
-		.authoritiesByUsernameQuery("select u.username, a.name "
-				+ "from usr_roles a inner join usr_users u on a.user_id = u.id "
-				+ "where u.username=?");
+		auth.userDetailsService(userService)
+			.passwordEncoder(passwordEncoder)
+			.getUserDetailsService();
 		
 	}
 
