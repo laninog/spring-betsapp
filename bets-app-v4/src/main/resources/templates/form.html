@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>matchesApp</title>
+<style type="text/css">
+div {
+   width: 500px;
+}
+input[type=text] {
+	width: 100%;
+}
+input[type=number] {
+	width: 100%;
+}
+.fieldError {
+	border: 1px solid #f00
+}
+</style>
+</head>
+<body>
+
+	<h1>BetsApp</h1>
+
+	<div th:object="${match}" th:remove="tag">
+		<ul th:if="${#fields.hasErrors('*')}">
+			<li th:each="e: ${#fields.errors('*')}" th:text="${e}"></li>
+		</ul>
+	</div>
+
+	<div>
+		<form action="#" th:action="@{/matches}" th:object="${match}" method="post">
+			<label for="flocal">Local/If local win</label> 
+				<input id="flocal" type="text" th:field="*{local}" th:errorclass="fieldError">
+				<input type="number" th:field="*{relLocal}"> 
+			<label for="fvisitor">Visitor/If visitor win</label> 
+				<input id="fvisitor" type="text" th:field="*{visitor}">
+				<small th:if="${#fields.hasErrors('visitor')}"
+							th:errors="*{visitor}"></small>
+				<input type="number" th:field="*{relVisitor}">
+			<label>Draw</label> <input type="number" th:field="*{relDraw}"> 
+			<label>Open</label> <input type="datetime-local" th:field="*{open}"> 
+			<label>Close</label> <input type="datetime-local" th:field="*{close}">
+			<button type="submit">Save Match</button>
+		</form>
+	</div>
+
+</body>
+</html>
