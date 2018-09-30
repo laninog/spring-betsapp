@@ -13,8 +13,6 @@ import java.time.LocalDateTime;
 @Configuration
 public class MatchItemReader {
 
-    private static final String[] NAMES = { "local", "rellocal", "visitor", "relvisitor", "reldraw", "open", "close" };
-
     @Bean
     public FlatFileItemReader<Match> readFileDelimiter(Resource in) throws Exception {
         return new FlatFileItemReaderBuilder<Match>()
@@ -40,6 +38,7 @@ public class MatchItemReader {
                         return tmp;
                     }
                 })
+                .strict(false)
                 .build();
     }
 
