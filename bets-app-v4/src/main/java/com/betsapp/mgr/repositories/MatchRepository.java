@@ -1,6 +1,7 @@
 package com.betsapp.mgr.repositories;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,6 +25,10 @@ public class MatchRepository {
 	
 	public Match findById(Long id) {
 		return em.find(Match.class, id);
+	}
+
+	public Optional<Match> findByIdOptional(Long id) {
+		return Optional.of(em.find(Match.class, id));
 	}
 	
 	@Transactional
