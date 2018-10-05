@@ -19,4 +19,10 @@ public interface UserBetMapper {
 
     public List<UserBetDTO> toDto(List<UserBet> list);
 
+    @Mappings({
+            @Mapping(source = "user", target = "user.id"),
+            @Mapping(source = "match", target = "match.id")
+    })
+    public UserBet toEntity(UserBetDTO userBet);
+
 }
