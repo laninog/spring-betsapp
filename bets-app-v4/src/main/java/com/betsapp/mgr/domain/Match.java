@@ -15,10 +15,12 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="MGR_MATCHES")
+// @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = -5993767229492265208L;
@@ -26,7 +28,8 @@ public class Match implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-    
+
+	// @JsonInclude(JsonInclude.Include.NON_EMPTY)
     @NotEmpty
 	private String local;
     
