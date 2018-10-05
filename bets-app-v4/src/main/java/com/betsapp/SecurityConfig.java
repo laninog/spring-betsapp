@@ -10,7 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.betsapp.usr.handlers.LoginSuccessHandler;
 import com.betsapp.usr.services.UserService;
 
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -26,27 +26,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configurer(AuthenticationManagerBuilder auth) throws Exception {
 
 		auth.userDetailsService(userService)
-				.passwordEncoder(passwordEncoder)
-				.getUserDetailsService();
+			.passwordEncoder(passwordEncoder)
+			.getUserDetailsService();
 		
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests()
-		.antMatchers("/static/**")
-			.permitAll()
-		.and()
-			.formLogin()
-			.successHandler(successHandler)
-			.loginPage("/login")
+		http.csrf().disable()
+			.authorizeRequests()
+			.antMatchers("/static/**")
 				.permitAll()
-		.and()
-			.logout().permitAll()
-		.and()
-			.exceptionHandling()
-		.accessDeniedPage("/error403");
+			.and()
+				.formLogin()
+				.successHandler(successHandler)
+				.loginPage("/login")
+					.permitAll()
+			.and()
+				.logout().permitAll()
+			.and()
+				.exceptionHandling()
+			.accessDeniedPage("/error403");
 
 	}
 
