@@ -8,8 +8,8 @@ import com.betsapp.mgr.domain.Match;
 import com.betsapp.mgr.repositories.MatchRepository;
 import com.betsapp.usr.domain.User;
 import com.betsapp.usr.repositories.UserRepository;
-import com.betsapp.usr.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +24,7 @@ public class UserBetService {
     private UserBetMapper mapper;
 
     //@Autowired
-    private UserBetRepository userBetRespository;
+    private UserBetRepository userBetRepository;
 
     //@Autowired
     private UserRepository userRepository;
@@ -33,15 +33,40 @@ public class UserBetService {
     private MatchRepository matchRepository;
 
     @Autowired
-    public UserBetService(UserBetMapper mapper, UserBetRepository userBetRespository, UserRepository userRepository, MatchRepository matchRepository) {
+    public UserBetService(UserBetMapper mapper, UserBetRepository userBetRepository, UserRepository userRepository, MatchRepository matchRepository) {
         this.mapper = mapper;
-        this.userBetRespository = userBetRespository;
+        this.userBetRepository = userBetRepository;
         this.userRepository = userRepository;
         this.matchRepository = matchRepository;
     }
 
+    @Transactional(readOnly=true)
     public List<UserBetDTO> findAll() {
-        return mapper.toDto(userBetRespository.findAll());
+        return mapper.toDto(userBetRepository.findAll());
+    }
+
+    @Transactional(readOnly=true)
+    public List<UserBetDTO> findAllByUser(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        user.orElseThrow(() -> new NotFoundException("User not found"));
+
+        UserBet criteria = new UserBet();
+        criteria.setUser(user.get());
+
+        Example<UserBet> example = Example.of(criteria);
+
+        return mapper.toDto(userBetRepository.findAll(example));
+    }
+
+    @Transactional
+    public UserBetDTO findByIdAndUser(Long userId, Long id) {
+        Optional<User> user = userRepository.findById(userId);
+        user.orElseThrow(() -> new NotFoundException("User not found"));
+
+        Optional<UserBet> ub = userBetRepository.findById(id);
+        ub.orElseThrow(() -> new NotFoundException("Bet not found!"));
+
+        return mapper.toDto(userBetRepository.findByIdAndUserId(id, userId).get());
     }
 
     @Transactional
@@ -56,12 +81,12 @@ public class UserBetService {
         UserBet newUserBet = mapper.toEntity(userBet);
         newUserBet.setCreated(LocalDateTime.now());
 
-        return mapper.toDto(userBetRespository.save(newUserBet));
+        return mapper.toDto(userBetRepository.save(newUserBet));
     }
 
     @Transactional
     public UserBetDTO findById(Long id) {
-        Optional<UserBet> userBet = userBetRespository.findById(id);
+        Optional<UserBet> userBet = userBetRepository.findById(id);
         userBet.orElseThrow(() -> new NotFoundException("UserBet not found"));
         return mapper.toDto(userBet.get());
     }

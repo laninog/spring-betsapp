@@ -5,6 +5,7 @@
 ## Modules
 
 - Web / Rest
+- Object mapping
 - Security / Rest
 - Messaging
 
