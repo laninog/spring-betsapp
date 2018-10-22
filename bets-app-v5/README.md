@@ -1,12 +1,9 @@
 ![SpringBoot](https://spring.io/img/homepage/icon-spring-boot.svg)
 
-# Session 4 SpringBoot Training
+# Session 6 SpringBoot Training
 
 ## Modules
 
-- Web / Rest
-- Object mapping
-- Security / Rest
 - Messaging
 
 ## Requirements
@@ -27,12 +24,12 @@ cd spring-betsapp
 
 Build project
 ``` bash
-cd best-app-v4
+cd best-app-v5
 ./mvnw clean install
 ```
 Run test
 ``` bash
-cd best-app-v4
+cd best-app-v5
 ./mvnw test
 ```
 
@@ -40,6 +37,6 @@ cd best-app-v4
 
 Run application
 ``` bash
-cd best-app-v4
+cd best-app-v5
 ./mvnw spring-boot:run
 ```

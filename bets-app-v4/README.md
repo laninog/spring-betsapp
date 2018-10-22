@@ -1,13 +1,12 @@
 ![SpringBoot](https://spring.io/img/homepage/icon-spring-boot.svg)
 
-# Session 4 SpringBoot Training
+# Session 4, 5 SpringBoot Training
 
 ## Modules
 
 - Web / Rest
 - Object mapping
 - Security / Rest
-- Messaging
 
 ## Requirements
 
