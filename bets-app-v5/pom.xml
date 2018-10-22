@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.betsapp</groupId>
-	<artifactId>bets-app</artifactId>
-	<version>0.0.4-SNAPSHOT</version>
+	<artifactId>bets-app-v5</artifactId>
+	<version>0.0.5-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>bets-app-v5</name>
