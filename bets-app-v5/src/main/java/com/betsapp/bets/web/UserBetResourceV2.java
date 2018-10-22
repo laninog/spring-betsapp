@@ -1,23 +1,30 @@
 package com.betsapp.bets.web;
 
-import com.betsapp.MessagingConfig;
-import com.betsapp.bets.services.UserBetDTO;
-import com.betsapp.bets.services.UserBetService;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
+import com.betsapp.MessagingConfig;
+import com.betsapp.bets.services.UserBetDTO;
+import com.betsapp.bets.services.UserBetService;
 
 @RestController
 @RequestMapping("/api/v2")
@@ -48,6 +55,7 @@ public class UserBetResourceV2 {
 
         rabbitTemplate.convertAndSend(MessagingConfig.exchangeName, "new.bet", userBet.toString());
 
+        // Recurso ficticio donde el usuario podría validar si su apuesta ya fue procesada
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}/processed")
                 .buildAndExpand(userBet.getUser())
                 .toUri();
@@ -69,22 +77,6 @@ public class UserBetResourceV2 {
     	
     	return new ResponseEntity<>(results, HttpStatus.OK);
     }
-
-    /*@GetMapping("/user-bets/{id}")
-    public Resource<UserBetDTO> findById(@PathVariable("id") Long id) {
-        UserBetDTO userBet = userBetService.findById(id);
-
-        Resource<UserBetDTO> resource = new Resource<>(userBet);
-
-        // HATEOAS 
-        ControllerLinkBuilder link =
-                ControllerLinkBuilder.linkTo(
-                        ControllerLinkBuilder.methodOn(this.getClass()).findAll());
-
-        resource.add(link.withRel("findAll"));
-
-        return resource;
-    }*/
     
     @GetMapping("/user/{user}/bets/{id}")
     public ResponseEntity<Resource<UserBetDTO>> findById(@PathVariable("user") Long user,

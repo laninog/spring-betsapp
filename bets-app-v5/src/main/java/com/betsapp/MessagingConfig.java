@@ -1,13 +1,9 @@
 package com.betsapp;
 
-import com.betsapp.msg.MessageReceiver;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
-import org.springframework.amqp.rabbit.connection.ConnectionFactory;
-import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
-import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -34,7 +30,7 @@ public class MessagingConfig {
                 .with("new.bet");
     }
 
-    @Bean
+    /*@Bean
     public SimpleMessageListenerContainer container(ConnectionFactory factory,
                                                     MessageListenerAdapter adapter) {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
@@ -47,6 +43,6 @@ public class MessagingConfig {
     @Bean
     public MessageListenerAdapter listenerAdapter(MessageReceiver receiver) {
         return new MessageListenerAdapter(receiver, "receive");
-    }
+    }*/
 
 }
