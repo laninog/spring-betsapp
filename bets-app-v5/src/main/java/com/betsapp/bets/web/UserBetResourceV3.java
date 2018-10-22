@@ -45,45 +45,30 @@ public class UserBetResourceV3 {
     }
 
     @GetMapping(value="/users/{user}/bets", params = "v=3")
-    public ResponseEntity<List<Resource<UserBetDTO>>> findAllByUser(
-            @PathVariable("user") Long user) {
+    public ResponseEntity<List<Resource<UserBetDTO>>> findAllByUser(@PathVariable("user") Long user,
+            @RequestParam(value="v", defaultValue="3") String version) {
     	
     	// HATEOAS
     	// UserDTO podría extender de ResourceSupport (clase padre de Resource) 
     	List<Resource<UserBetDTO>> results = 
     			userBetService.findAllByUser(user)
     				.stream().map(ub -> 
-    					new Resource<>(ub, linkTo(methodOn(this.getClass()).findById(user, ub.getId())).withSelfRel())
+    					new Resource<>(ub, linkTo(methodOn(this.getClass()).findById(user, ub.getId(), "3")).withSelfRel())
     				).collect(Collectors.toList());
     	
     	return new ResponseEntity<>(results, HttpStatus.OK);
     }
-
-    /*@GetMapping("/user-bets/{id}")
-    public Resource<UserBetDTO> findById(@PathVariable("id") Long id) {
-        UserBetDTO userBet = userBetService.findById(id);
-
-        Resource<UserBetDTO> resource = new Resource<>(userBet);
-
-        // HATEOAS 
-        ControllerLinkBuilder link =
-                ControllerLinkBuilder.linkTo(
-                        ControllerLinkBuilder.methodOn(this.getClass()).findAll());
-
-        resource.add(link.withRel("findAll"));
-
-        return resource;
-    }*/
     
-    @GetMapping(value="/user/{user}/bets/{id}", params = "v=3")
+    @GetMapping(value="/users/{user}/bets/{id}", params = "v=3")
     public ResponseEntity<Resource<UserBetDTO>> findById(@PathVariable("user") Long user,
-                                                         @PathVariable("id") Long id) {
+                                                         @PathVariable("id") Long id,
+                                                         @RequestParam(value="v", defaultValue="3") String version) {
         UserBetDTO userBet = userBetService.findByIdAndUser(user, id);
 
         Resource<UserBetDTO> resource = new Resource<>(userBet);
 
         // HATEOAS 
-        resource.add(linkTo(methodOn(this.getClass()).findAllByUser(user)).withRel("findAll"));
+        resource.add(linkTo(methodOn(this.getClass()).findAllByUser(user, "3")).withRel("findAllByUser"));
 
         // Response Entity recubre resource 
         return new ResponseEntity<>(resource, HttpStatus.OK);
