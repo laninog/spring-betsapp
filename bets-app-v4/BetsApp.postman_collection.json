@@ -1,0 +1,484 @@
+{
+	"info": {
+		"_postman_id": "9361024a-335d-4bb2-8f99-770adb7d033c",
+		"name": "BetsApp",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User Bets",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"1\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/user-bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Bets Queue",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"2\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"DRAW\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v2/users/bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"users",
+						"bets"
+					],
+					"query": [
+						{
+							"key": "",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Bets URI",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"2\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"VISITOR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v2/users/1/bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"users",
+						"1",
+						"bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Bets Param",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"2\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"VISITOR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/users/1/bets?v=3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1",
+						"bets"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Bets Header",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					},
+					{
+						"key": "X-API-VERSION",
+						"value": "4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"3\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"VISITOR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/users/1/bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1",
+						"bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User Bets Mediatype",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "es"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/vnd.company.app-v5+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"3\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"VISITOR\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/users/1/bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1",
+						"bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List User Bets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/user-bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List User Bets Header",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "X-API-VERSION",
+						"value": "4",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v2/users/1/bets",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"users",
+						"1",
+						"bets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User Bets",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/user-bets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"user-bets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User Bets URI",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/v2/users/1/bets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v2",
+						"users",
+						"1",
+						"bets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User Bets Param",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/users/1/bets/1?v=3",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1",
+						"bets",
+						"1"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "3"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One User Bets Header",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "X-API-VERSION",
+						"value": "4",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"user\": \"1\",\n\t\"match\": \"90\",\n\t\"amount\": \"80.3\",\n\t\"result\": \"LOCAL\"\n}"
+				},
+				"url": {
+					"raw": "localhost:8080/api/users/1/bets/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"users",
+						"1",
+						"bets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List Matches",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/xml",
+						"disabled": true
+					}
+				],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/matches",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"matches"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "One Match",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/api/matches/7",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"matches",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
