@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.betsapp.Configuration;
 import com.betsapp.exceptions.NotFoundException;
 import com.betsapp.usr.domain.User;
 import com.betsapp.usr.repositories.UserRepository;
@@ -23,12 +24,17 @@ public class UsersController {
 	@Autowired
 	private UserRepository repository;
 	
+	@Autowired
+	private Configuration config;
+	
     @GetMapping("/users/{id}")
     public ResponseEntity<User> findById(@PathVariable("id") Long id) {
     	Optional<User> opUser = repository.findById(id);
     	opUser.orElseThrow(() -> new NotFoundException("User not found"));
     	
     	logger.info("User -> {}", opUser.get());
+    	logger.info("Number -> {}", config.getNumber());
+    	
     	
         return new ResponseEntity<>(opUser.get(), HttpStatus.OK);
     } 
