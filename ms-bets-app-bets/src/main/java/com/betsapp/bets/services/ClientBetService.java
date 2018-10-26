@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import com.betsapp.bets.clients.User;
+import com.betsapp.bets.clients.UsersClientProxy;
 import com.betsapp.bets.domain.ClientBet;
 import com.betsapp.bets.mappers.ClientBetMapper;
 import com.betsapp.bets.repositories.ClientBetRepository;
@@ -26,8 +28,8 @@ public class ClientBetService {
     //@Autowired
     private ClientBetRepository clientBetRepository;
 
-    //@Autowired
-    //private UserRepository clientRepository;
+    @Autowired
+    private UsersClientProxy usersProxy;
 
     //@Autowired
     //private MatchRepository matchRepository;
@@ -58,9 +60,11 @@ public class ClientBetService {
 
     @Transactional
     public ClientBetDTO findByIdAndClient(Long clientId, Long id) {
-    	Map<String, String> pathVars = new HashMap<>();
+    	/*Map<String, String> pathVars = new HashMap<>();
 		pathVars.put("id", String.valueOf(clientId));
-		Client client = new RestTemplate().getForObject("http://localhost:8000/users/{id}", Client.class, pathVars);
+		Client client = new RestTemplate().getForObject("http://localhost:8000/users/{id}", Client.class, pathVars);*/
+    	
+    	User user = usersProxy.findById(clientId);
     	
         Optional<ClientBet> ub = clientBetRepository.findById(id);
         ub.orElseThrow(() -> new NotFoundException("Bet not found!"));

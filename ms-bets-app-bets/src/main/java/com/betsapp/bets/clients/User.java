@@ -1,6 +1,6 @@
-package com.betsapp.bets.services;
+package com.betsapp.bets.clients;
 
-public class Client {
+public class User {
 
 	private Long id;
 
@@ -11,5 +11,5 @@ public class Client {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
+	
 }
