@@ -12,7 +12,7 @@ public class ClientBetDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private Long user;
+    private Long client;
 
     @NotNull
     private Long match;
@@ -32,12 +32,12 @@ public class ClientBetDTO implements Serializable {
         this.id = id;
     }
 
-    public Long getUser() {
-        return user;
+    public Long getClient() {
+        return client;
     }
 
-    public void setUser(Long user) {
-        this.user = user;
+    public void setClient(Long client) {
+        this.client = client;
     }
 
     public Long getMatch() {

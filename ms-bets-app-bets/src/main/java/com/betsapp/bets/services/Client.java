@@ -2,14 +2,14 @@ package com.betsapp.bets.services;
 
 public class Client {
 
-	private Long userId;
+	private Long id;
 
-	public Long getUserId() {
-		return userId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 }

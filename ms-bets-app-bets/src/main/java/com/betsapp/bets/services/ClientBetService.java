@@ -60,7 +60,7 @@ public class ClientBetService {
     public ClientBetDTO findByIdAndClient(Long clientId, Long id) {
     	Map<String, String> pathVars = new HashMap<>();
 		pathVars.put("id", String.valueOf(clientId));
-		Client client = new RestTemplate().getForObject("http://localhost:8000/clients/{id}", Client.class, pathVars);
+		Client client = new RestTemplate().getForObject("http://localhost:8000/users/{id}", Client.class, pathVars);
     	
         Optional<ClientBet> ub = clientBetRepository.findById(id);
         ub.orElseThrow(() -> new NotFoundException("Bet not found!"));
