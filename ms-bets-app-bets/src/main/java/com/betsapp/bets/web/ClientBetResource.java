@@ -28,14 +28,14 @@ import com.betsapp.bets.services.ClientBetService;
 public class ClientBetResource {
 
     @Autowired
-    private ClientBetService userBetService;
+    private ClientBetService clientBetService;
 
-    @PostMapping("/clients/{user}/bets")
-    public ResponseEntity<ClientBetDTO> create(@PathVariable("user") Long user,
-                                             @Valid @RequestBody ClientBetDTO userBet) {
-		ClientBetDTO dto = userBetService.create(userBet);
+    @PostMapping("/clients/{client}/bets")
+    public ResponseEntity<ClientBetDTO> create(@PathVariable("client") Long client,
+                                             @Valid @RequestBody ClientBetDTO clientBet) {
+		ClientBetDTO dto = clientBetService.create(clientBet);
 
-		// Http 201 debe agregar una cabecera con la localizacion del nuevo recurso /api/user-bets/{id} 
+		// Http 201 debe agregar una cabecera con la localizacion del nuevo recurso /api/client-bets/{id} 
 		// Cambiar path a fragment si se utiliza una SPA o PWD
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId())
@@ -44,30 +44,30 @@ public class ClientBetResource {
 		return ResponseEntity.created(uri).build();
     }
 
-    @GetMapping("/clients/{user}/bets")
-    public ResponseEntity<List<Resource<ClientBetDTO>>> findAllByUser(
-            @PathVariable("user") Long user) {
+    @GetMapping("/clients/{client}/bets")
+    public ResponseEntity<List<Resource<ClientBetDTO>>> findAllByClient(
+            @PathVariable("client") Long client) {
     	
     	// HATEOAS
     	// UserDTO podría extender de ResourceSupport (clase padre de Resource) 
     	List<Resource<ClientBetDTO>> results = 
-    			userBetService.findAllByUser(user)
+    			clientBetService.findAllByClient(client)
     				.stream().map(ub -> 
-    					new Resource<>(ub, linkTo(methodOn(this.getClass()).findById(user, ub.getId())).withSelfRel())
+    					new Resource<>(ub, linkTo(methodOn(this.getClass()).findById(client, ub.getId())).withSelfRel())
     				).collect(Collectors.toList());
     	
     	return new ResponseEntity<>(results, HttpStatus.OK);
     }
     
-    @GetMapping("/clients/{user}/bets/{id}")
-    public ResponseEntity<Resource<ClientBetDTO>> findById(@PathVariable("user") Long user,
+    @GetMapping("/clients/{client}/bets/{id}")
+    public ResponseEntity<Resource<ClientBetDTO>> findById(@PathVariable("client") Long client,
                                                          @PathVariable("id") Long id) {
-        ClientBetDTO userBet = userBetService.findByIdAndUser(user, id);
+        ClientBetDTO clientBet = clientBetService.findByIdAndClient(client, id);
 
-        Resource<ClientBetDTO> resource = new Resource<>(userBet);
+        Resource<ClientBetDTO> resource = new Resource<>(clientBet);
 
         // HATEOAS 
-        resource.add(linkTo(methodOn(this.getClass()).findAllByUser(user)).withRel("findAll"));
+        resource.add(linkTo(methodOn(this.getClass()).findAllByClient(client)).withRel("findAll"));
 
         // Response Entity recubre resource 
         return new ResponseEntity<>(resource, HttpStatus.OK);

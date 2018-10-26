@@ -1,4 +1,4 @@
-package com.betsapp.bets.exceptions;
+package com.betsapp.exceptions;
 
 import java.time.LocalDateTime;
 
