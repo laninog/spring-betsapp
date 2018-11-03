@@ -1,17 +1,15 @@
 package com.betsapp.bets.services;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
+import com.betsapp.bets.clients.MatchesClientProxy;
 import com.betsapp.bets.clients.User;
 import com.betsapp.bets.clients.UsersClientProxy;
 import com.betsapp.bets.domain.ClientBet;
@@ -22,22 +20,23 @@ import com.betsapp.exceptions.NotFoundException;
 @Service
 public class ClientBetService {
 
-    //@Autowired
     private ClientBetMapper mapper;
 
-    //@Autowired
     private ClientBetRepository clientBetRepository;
 
-    @Autowired
-    private UsersClientProxy usersProxy;
-
-    //@Autowired
-    //private MatchRepository matchRepository;
+    private UsersClientProxy usersClientProxy;
+    private MatchesClientProxy matchesClientProxy;
 
     @Autowired
-    public ClientBetService(ClientBetMapper mapper, ClientBetRepository clientBetRepository) {
+    public ClientBetService(
+    		ClientBetMapper mapper, 
+    		ClientBetRepository clientBetRepository,
+    		UsersClientProxy usersClientProxy,
+    		MatchesClientProxy matchesClientProxy) {
         this.mapper = mapper;
         this.clientBetRepository = clientBetRepository;
+        this.usersClientProxy = usersClientProxy;
+        this.matchesClientProxy = matchesClientProxy;
     }
 
     @Transactional(readOnly=true)
@@ -47,11 +46,12 @@ public class ClientBetService {
 
     @Transactional(readOnly=true)
     public List<ClientBetDTO> findAllByClient(Long clientId) {
-        //Optional<User> client = clientRepository.findById(clientId);
-        //client.orElseThrow(() -> new NotFoundException("User not found"));
 
-        /*ClientBet criteria = new ClientBet();
-        criteria.setUser(client.get());*/
+    	// Client exists validation
+    	User user = usersClientProxy.findById(clientId);
+    	
+        ClientBet criteria = new ClientBet();
+        criteria.setClient(user.getId());
 
         Example<ClientBet> example = Example.of(null);
 
@@ -64,7 +64,8 @@ public class ClientBetService {
 		pathVars.put("id", String.valueOf(clientId));
 		Client client = new RestTemplate().getForObject("http://localhost:8000/users/{id}", Client.class, pathVars);*/
     	
-    	User user = usersProxy.findById(clientId);
+    	// Client exists validation
+    	usersClientProxy.findById(clientId);
     	
         Optional<ClientBet> ub = clientBetRepository.findById(id);
         ub.orElseThrow(() -> new NotFoundException("Bet not found!"));
@@ -74,12 +75,12 @@ public class ClientBetService {
 
     @Transactional
     public ClientBetDTO create(ClientBetDTO clientBet) {
+    	
+    	// Client exists validation
+    	usersClientProxy.findById(clientBet.getClient());
 
-        /*Optional<User> client = clientRepository.findById(clientBet.getUser());
-        client.orElseThrow(() -> new NotFoundException("User not found"));
-
-        Optional<Match> match = matchRepository.findByIdOptional(clientBet.getMatch());
-        match.orElseThrow(() -> new NotFoundException("Match not found"));*/
+        // Match exists validation
+        matchesClientProxy.findById(clientBet.getClient());
 
         ClientBet newUserBet = mapper.toEntity(clientBet);
         newUserBet.setCreated(LocalDateTime.now());
@@ -90,7 +91,7 @@ public class ClientBetService {
     @Transactional
     public ClientBetDTO findById(Long id) {
         Optional<ClientBet> clientBet = clientBetRepository.findById(id);
-        clientBet.orElseThrow(() -> new NotFoundException("UserBet not found"));
+        clientBet.orElseThrow(() -> new NotFoundException("Bet not found!"));
         return mapper.toDto(clientBet.get());
     }
 
