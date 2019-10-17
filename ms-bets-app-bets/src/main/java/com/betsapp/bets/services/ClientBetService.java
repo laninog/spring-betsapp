@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.betsapp.bets.clients.MatchesClientProxy;
 import com.betsapp.bets.clients.User;
@@ -48,12 +50,12 @@ public class ClientBetService {
     public List<ClientBetDTO> findAllByClient(Long clientId) {
 
     	// Client exists validation
-    	User user = usersClientProxy.findById(clientId);
+    	User user = usersClientProxy.findById(clientId, getAuthorizationHeader());
     	
         ClientBet criteria = new ClientBet();
         criteria.setClient(user.getId());
 
-        Example<ClientBet> example = Example.of(null);
+        Example<ClientBet> example = Example.of(criteria);
 
         return mapper.toDto(clientBetRepository.findAll(example));
     }
@@ -65,7 +67,7 @@ public class ClientBetService {
 		Client client = new RestTemplate().getForObject("http://localhost:8000/users/{id}", Client.class, pathVars);*/
     	
     	// Client exists validation
-    	usersClientProxy.findById(clientId);
+    	usersClientProxy.findById(clientId, getAuthorizationHeader());
     	
         Optional<ClientBet> ub = clientBetRepository.findById(id);
         ub.orElseThrow(() -> new NotFoundException("Bet not found!"));
@@ -77,10 +79,10 @@ public class ClientBetService {
     public ClientBetDTO create(ClientBetDTO clientBet) {
     	
     	// Client exists validation
-    	usersClientProxy.findById(clientBet.getClient());
+    	usersClientProxy.findById(clientBet.getClient(), getAuthorizationHeader());
 
         // Match exists validation
-        matchesClientProxy.findById(clientBet.getClient());
+        matchesClientProxy.findById(clientBet.getClient(), getAuthorizationHeader());
 
         ClientBet newUserBet = mapper.toEntity(clientBet);
         newUserBet.setCreated(LocalDateTime.now());
@@ -93,6 +95,10 @@ public class ClientBetService {
         Optional<ClientBet> clientBet = clientBetRepository.findById(id);
         clientBet.orElseThrow(() -> new NotFoundException("Bet not found!"));
         return mapper.toDto(clientBet.get());
+    }
+    
+    private String getAuthorizationHeader() {
+    	return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest().getHeader("Authorization");
     }
 
 }
